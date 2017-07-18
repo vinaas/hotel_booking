@@ -7,8 +7,9 @@
       <div class="sub-banner">
         <div class="container">
           <div class="text text-center">
-            <h2>{{roomDetail.title}}</h2>
-            <p v-html="roomDetail.body_html"></p>
+  
+            <h2 v-for="room in rooms" v-if="room.permalink == roomID">{{room.title}}</h2>
+  
           </div>
         </div>
   
@@ -28,14 +29,64 @@
               <!-- LAGER IMGAE -->
               <div class="room-detail_img">
                 <div class="room_img-item">
-                  <img src="/static/images/room/detail/lager/img-1.jpg" alt="">
+                  <img src="static/images/room/detail/lager/img-1.jpg" alt="">
                   <h6>Lorem Ipsum is simply dummy text of the printing and typesetting industry</h6>
                 </div>
-              
+                <div class="room_img-item">
+                  <img src="static/images/room/detail/lager/img-2.jpg" alt="">
+                  <h6>Lorem Ipsum is simply dummy text of the printing and typesetting industry</h6>
+                </div>
+                <div class="room_img-item">
+                  <img src="static/images/room/detail/lager/img-3.jpg" alt="">
+                  <h6>Lorem Ipsum is simply dummy text of the printing and typesetting industry</h6>
+                </div>
+                <div class="room_img-item">
+                  <img src="static/images/room/detail/lager/img-5.jpg" alt="">
+                  <h6>Lorem Ipsum is simply dummy text of the printing and typesetting industry</h6>
+                </div>
+                <div class="room_img-item">
+                  <img src="static/images/room/detail/lager/img-6.jpg" alt="">
+                  <h6>Lorem Ipsum is simply dummy text of the printing and typesetting industry</h6>
+                </div>
+                <div class="room_img-item">
+                  <img src="static/images/room/detail/lager/img-7.jpg" alt="">
+                  <h6>Lorem Ipsum is simply dummy text of the printing and typesetting industry</h6>
+                </div>
+                <div class="room_img-item">
+                  <img src="static/images/room/detail/lager/img-5.jpg" alt="">
+                  <h6>Lorem Ipsum is simply dummy text of the printing and typesetting industry</h6>
+                </div>
               </div>
               <!-- END / LAGER IMGAE -->
   
-      
+              <!-- THUMBNAIL IMAGE -->
+              <div class="room-detail_thumbs">
+                <a href="room-detail.html#">
+                  <img src="static/images/room/detail/img-2.jpg" alt="">
+                </a>
+                <a href="room-detail.html#">
+                  <img src="static/images/room/detail/img-3.jpg" alt="">
+                </a>
+                <a href="room-detail.html#">
+                  <img src="static/images/room/detail/img-4.jpg" alt="">
+                </a>
+                <a href="room-detail.html#">
+                  <img src="static/images/room/detail/img-5.jpg" alt="">
+                </a>
+                <a href="room-detail.html#">
+                  <img src="static/images/room/detail/img-6.jpg" alt="">
+                </a>
+                <a href="room-detail.html#">
+                  <img src="static/images/room/detail/img-7.jpg" alt="">
+                </a>
+                <a href="room-detail.html#">
+                  <img src="static/images/room/detail/img-8.jpg" alt="">
+                </a>
+                <a href="room-detail.html#">
+                  <img src="static/images/room/detail/img-6.jpg" alt="">
+                </a>
+              </div>
+              <!-- END / THUMBNAIL IMAGE -->
   
             </div>
   
@@ -45,35 +96,39 @@
               <div class="room-detail_book">
   
                 <div class="room-detail_total">
-                  <img src="/static/images/icon-logo.png" alt="" class="icon-logo">
+                  <!-- <img src="/static/images/icon-logo.png" alt="" class="icon-logo"> -->
   
-                  <h6>STARTING ROOM FROM</h6>
+                  <h6>Giá phòng</h6>
   
                   <p class="price">
-                    <span class="amout">${{roomDetail.price}}</span> /days
+  
+                    <span class="amout" v-for="room in rooms" v-if="room.permalink == roomID">$ {{room.price}}</span>
                   </p>
                 </div>
   
                 <div class="room-detail_form">
-                  <label>Arrive</label>
-                  <input type="text" class="awe-calendar from" placeholder="Arrive Date">
-                  <label>Depature</label>
-                  <input type="text" class="awe-calendar to" placeholder="Departure Date">
-                  <label>Adult</label>
-                  <select class="awe-select">
+                  <label>Ngày đến</label>
+  
+                  <flat-pickr v-model="date" placeholder="Ngày đến" input-class="awe-calendar from"></flat-pickr>
+  
+                  <label>Ngày đi</label>
+                  <flat-pickr v-model="date2" placeholder="Ngày đi" input-class="awe-calendar from"></flat-pickr>
+  
+                  <label>Người lớn</label>
+                  <select class="form-control">
                     <option>1</option>
                     <option>2</option>
                     <option selected>3</option>
                     <option>4</option>
                   </select>
-                  <label>Chirld</label>
-                  <select class="awe-select">
+                  <label>Trẻ em</label>
+                  <select class="form-control">
                     <option>1</option>
                     <option>2</option>
                     <option selected>3</option>
                     <option>4</option>
                   </select>
-                  <button class="awe-btn awe-btn-13">Book Now</button>
+                  <button class="awe-btn awe-btn-13">Đặt ngay</button>
                 </div>
   
               </div>
@@ -90,21 +145,19 @@
           <div class="row">
             <div class="col-md-3">
               <ul class="room-detail_tab-header">
-                <li>
-                  <a href="room-detail.html#overview" data-toggle="tab">OVERVIEW</a>
+                <li class="active" v-on:click.prevent="openTab($event,'overview')">
+                  <a href="#">TỔNG QUAN</a>
                 </li>
-                <li class="active">
-                  <a href="room-detail.html#amenities" data-toggle="tab">amenities</a>
+                <li v-on:click.prevent="openTab( $event,'amenities')">
+                  <a href="#">TIỆN NGHI</a>
                 </li>
-                <li>
-                  <a href="room-detail.html#package" data-toggle="tab">PACKAGE</a>
+                <li v-on:click.prevent="openTab($event,'package')">
+                  <a href="#">GÓI PHÒNG</a>
                 </li>
-                <li>
-                  <a href="room-detail.html#rates" data-toggle="tab">RATES</a>
+                <li v-on:click.prevent="openTab($event,'rates')">
+                  <a href="#">RATES</a>
                 </li>
-                <li>
-                  <a href="room-detail.html#calendar" data-toggle="tab">Calendar</a>
-                </li>
+  
               </ul>
             </div>
   
@@ -112,29 +165,28 @@
               <div class="room-detail_tab-content tab-content">
   
                 <!-- OVERVIEW -->
-                <div class="tab-pane fade" id="overview">
+                <div class="tab-pane fade active in" id="overview">
   
                   <div class="room-detail_overview">
-                    <h5 class='text-uppercase
-                                          '>de Finibus Bonorum et Malorum", written by Cicero in 45 BC</h5>
-                    <p>Located in the heart of Aspen with a unique blend of contemporary luxury and historic heritage, deluxe accommodations, superb amenities, genuine hospitality and dedicated service for an elevated experience in the Rocky Mountains.</p>
+                    <h5 class='text-uppercase'>Khách sạn Boutique</h5>
+                    <p>Nằm ở quận 1 nên đi lại vào trung tâm thuận tiện, ra sân bay cũng tương đối nhanh. Thuộc loại căn hộ dịch vụ nên phòng ốc thoáng mát rộng rãi, sạch sẽ. Có đủ các tiện nghi trang bị nhà bếp, phòng khách.</p>
   
                     <div class="row">
                       <div class="col-xs-6 col-md-4">
-                        <h6>SPECIAL ROOM</h6>
+                        <h6>TIỆN ÍCH</h6>
                         <ul>
-                          <li>Max: 4 Person(s)</li>
-                          <li>Size: 35 m2 / 376 ft2</li>
-                          <li>View: Ocen</li>
-                          <li>Bed: King-size or twin beds</li>
+                          <li>Wifi miễn phí</li>
+                          <li>Đỗ xe miễn phí</li>
+                          <li>Bữa sáng tự chọn</li>
+                          <li>Điều hòa nhiệt độ</li>
+                          <li>Bể bơi</li>
                         </ul>
                       </div>
                       <div class="col-xs-6 col-md-4">
-                        <h6>SERVICE ROOM</h6>
+                        <h6>THAM KHẢO</h6>
                         <ul>
-                          <li>Oversized work desk</li>
-                          <li>Hairdryer</li>
-                          <li>Iron/ironing board upon request</li>
+                          <li>Phòng không hút thuốc</li>
+                          <li>Nhà hàng</li>
                         </ul>
                       </div>
                     </div>
@@ -145,7 +197,7 @@
                 <!-- END / OVERVIEW -->
   
                 <!-- AMENITIES -->
-                <div class="tab-pane fade active in" id="amenities">
+                <div class="tab-pane fade " id="amenities">
   
                   <div class="room-detail_amenities">
                     <p>Located in the heart of Aspen with a unique blend of contemporary luxury and historic heritage, deluxe accommodations, superb amenities, genuine hospitality and dedicated service for an elevated experience in the Rocky Mountains.</p>
@@ -399,435 +451,6 @@
                 </div>
                 <!-- END / RATES -->
   
-                <!-- CALENDAR -->
-                <div class="tab-pane fade" id="calendar">
-  
-                  <div class="room-detail_calendar-wrap row">
-  
-                    <div class="col-sm-6">
-                      <!-- CALENDAR ITEM -->
-                      <div class="calendar_custom">
-  
-                        <div class="calendar_title">
-                          <span class="calendar_month">JUNE</span>
-                          <span class="calendar_year">2015</span>
-  
-                          <a href="room-detail.html#" class="calendar_prev calendar_corner">
-                            <i class="lotus-icon-left-arrow"></i>
-                          </a>
-                        </div>
-  
-                        <table class="calendar_tabel">
-  
-                          <thead>
-                            <tr>
-                              <th>Su</th>
-                              <th>Mo</th>
-                              <th>Tu</th>
-                              <th>We</th>
-                              <th>Th</th>
-                              <th>Fr</th>
-                              <th>Sa</th>
-                            </tr>
-                          </thead>
-  
-                          <tr>
-                            <td></td>
-                            <td class="apb-calendar_current-date">
-                              <a href="room-detail.html#">
-                                <small>1</small>
-                              </a>
-                            </td>
-                            <td>
-                              <a href="room-detail.html#">
-                                <small>2</small>
-                              </a>
-                            </td>
-                            <td>
-                              <a href="room-detail.html#">
-                                <small>3</small>
-                              </a>
-                            </td>
-                            <td>
-                              <a href="room-detail.html#">
-                                <small>4</small>
-                              </a>
-                            </td>
-                            <td>
-                              <a href="room-detail.html#">
-                                <small>5</small>
-                              </a>
-                            </td>
-                            <td>
-                              <a href="room-detail.html#">
-                                <small>6</small>
-                              </a>
-                            </td>
-                          </tr>
-  
-                          <tr>
-                            <td>
-                              <a href="room-detail.html#">
-                                <small>7</small>
-                              </a>
-                            </td>
-                            <td>
-                              <a href="room-detail.html#">
-                                <small>8</small>
-                              </a>
-                            </td>
-                            <td>
-                              <a href="room-detail.html#">
-                                <small>9</small>
-                              </a>
-                            </td>
-                            <td>
-                              <a href="room-detail.html#">
-                                <small>10</small>
-                              </a>
-                            </td>
-                            <td class="apb-calendar_current-select">
-                              <a href="room-detail.html#">
-                                <small>11</small>
-                              </a>
-                            </td>
-                            <td class="apb-calendar_current-select">
-                              <a href="room-detail.html#">
-                                <small>12</small>
-                              </a>
-                            </td>
-                            <td>
-                              <a href="room-detail.html#">
-                                <small>13</small>
-                              </a>
-                            </td>
-                          </tr>
-  
-                          <tr>
-                            <td>
-                              <a href="room-detail.html#">
-                                <small>14</small>
-                              </a>
-                            </td>
-                            <td>
-                              <a href="room-detail.html#">
-                                <small>15</small>
-                              </a>
-                            </td>
-                            <td class="not-available">
-                              <a href="room-detail.html#">
-                                <small>16</small>
-                              </a>
-                            </td>
-                            <td class="not-available">
-                              <a href="room-detail.html#">
-                                <small>17</small>
-                              </a>
-                            </td>
-                            <td>
-                              <a href="room-detail.html#">
-                                <small>18</small>
-                              </a>
-                            </td>
-                            <td>
-                              <a href="room-detail.html#">
-                                <small>19</small>
-                              </a>
-                            </td>
-                            <td>
-                              <a href="room-detail.html#">
-                                <small>20</small>
-                              </a>
-                            </td>
-                          </tr>
-  
-                          <tr>
-                            <td>
-                              <a href="room-detail.html#">
-                                <small>21</small>
-                              </a>
-                            </td>
-                            <td>
-                              <a href="room-detail.html#">
-                                <small>22</small>
-                              </a>
-                            </td>
-                            <td>
-                              <a href="room-detail.html#">
-                                <small>23</small>
-                              </a>
-                            </td>
-                            <td>
-                              <a href="room-detail.html#">
-                                <small>24</small>
-                              </a>
-                            </td>
-                            <td>
-                              <a href="room-detail.html#">
-                                <small>25</small>
-                              </a>
-                            </td>
-                            <td>
-                              <a href="room-detail.html#">
-                                <small>26</small>
-                              </a>
-                            </td>
-                            <td>
-                              <a href="room-detail.html#">
-                                <small>27</small>
-                              </a>
-                            </td>
-                          </tr>
-  
-                          <tr>
-                            <td>
-                              <a href="room-detail.html#">
-                                <small>28</small>
-                              </a>
-                            </td>
-                            <td>
-                              <a href="room-detail.html#">
-                                <small>29</small>
-                              </a>
-                            </td>
-                            <td>
-                              <a href="room-detail.html#">
-                                <small>30</small>
-                              </a>
-                            </td>
-                            <td>
-                              <a href="room-detail.html#">
-                                <small>31</small>
-                              </a>
-                            </td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                          </tr>
-  
-                        </table>
-  
-                      </div>
-                      <!-- END CALENDAR ITEM -->
-                    </div>
-  
-                    <div class="col-sm-6">
-  
-                      <!-- CALENDAR ITEM -->
-                      <div class="calendar_custom">
-  
-                        <div class="calendar_title">
-                          <span class="calendar_month">JUNE</span>
-                          <span class="calendar_year">2015</span>
-  
-                          <a href="room-detail.html#" class="calendar_next calendar_corner">
-                            <i class="lotus-icon-right-arrow"></i>
-                          </a>
-                        </div>
-  
-                        <table class="calendar_tabel">
-  
-                          <thead>
-                            <tr>
-                              <th>Su</th>
-                              <th>Mo</th>
-                              <th>Tu</th>
-                              <th>We</th>
-                              <th>Th</th>
-                              <th>Fr</th>
-                              <th>Sa</th>
-                            </tr>
-                          </thead>
-  
-                          <tr>
-                            <td></td>
-                            <td class="apb-calendar_current-date">
-                              <a href="room-detail.html#">
-                                <small>1</small>
-                              </a>
-                            </td>
-                            <td>
-                              <a href="room-detail.html#">
-                                <small>2</small>
-                              </a>
-                            </td>
-                            <td>
-                              <a href="room-detail.html#">
-                                <small>3</small>
-                              </a>
-                            </td>
-                            <td>
-                              <a href="room-detail.html#">
-                                <small>4</small>
-                              </a>
-                            </td>
-                            <td>
-                              <a href="room-detail.html#">
-                                <small>5</small>
-                              </a>
-                            </td>
-                            <td>
-                              <a href="room-detail.html#">
-                                <small>6</small>
-                              </a>
-                            </td>
-                          </tr>
-  
-                          <tr>
-                            <td>
-                              <a href="room-detail.html#">
-                                <small>7</small>
-                              </a>
-                            </td>
-                            <td>
-                              <a href="room-detail.html#">
-                                <small>8</small>
-                              </a>
-                            </td>
-                            <td>
-                              <a href="room-detail.html#">
-                                <small>9</small>
-                              </a>
-                            </td>
-                            <td>
-                              <a href="room-detail.html#">
-                                <small>10</small>
-                              </a>
-                            </td>
-                            <td class="apb-calendar_current-select">
-                              <a href="room-detail.html#">
-                                <small>11</small>
-                              </a>
-                            </td>
-                            <td class="apb-calendar_current-select">
-                              <a href="room-detail.html#">
-                                <small>12</small>
-                              </a>
-                            </td>
-                            <td>
-                              <a href="room-detail.html#">
-                                <small>13</small>
-                              </a>
-                            </td>
-                          </tr>
-  
-                          <tr>
-                            <td>
-                              <a href="room-detail.html#">
-                                <small>14</small>
-                              </a>
-                            </td>
-                            <td>
-                              <a href="room-detail.html#">
-                                <small>15</small>
-                              </a>
-                            </td>
-                            <td class="not-available">
-                              <a href="room-detail.html#">
-                                <small>16</small>
-                              </a>
-                            </td>
-                            <td class="not-available">
-                              <a href="room-detail.html#">
-                                <small>17</small>
-                              </a>
-                            </td>
-                            <td>
-                              <a href="room-detail.html#">
-                                <small>18</small>
-                              </a>
-                            </td>
-                            <td>
-                              <a href="room-detail.html#">
-                                <small>19</small>
-                              </a>
-                            </td>
-                            <td>
-                              <a href="room-detail.html#">
-                                <small>20</small>
-                              </a>
-                            </td>
-                          </tr>
-  
-                          <tr>
-                            <td>
-                              <a href="room-detail.html#">
-                                <small>21</small>
-                              </a>
-                            </td>
-                            <td>
-                              <a href="room-detail.html#">
-                                <small>22</small>
-                              </a>
-                            </td>
-                            <td>
-                              <a href="room-detail.html#">
-                                <small>23</small>
-                              </a>
-                            </td>
-                            <td>
-                              <a href="room-detail.html#">
-                                <small>24</small>
-                              </a>
-                            </td>
-                            <td>
-                              <a href="room-detail.html#">
-                                <small>25</small>
-                              </a>
-                            </td>
-                            <td>
-                              <a href="room-detail.html#">
-                                <small>26</small>
-                              </a>
-                            </td>
-                            <td>
-                              <a href="room-detail.html#">
-                                <small>27</small>
-                              </a>
-                            </td>
-                          </tr>
-  
-                          <tr>
-                            <td>
-                              <a href="room-detail.html#">
-                                <small>28</small>
-                              </a>
-                            </td>
-                            <td>
-                              <a href="room-detail.html#">
-                                <small>29</small>
-                              </a>
-                            </td>
-                            <td>
-                              <a href="room-detail.html#">
-                                <small>30</small>
-                              </a>
-                            </td>
-                            <td>
-                              <a href="room-detail.html#">
-                                <small>31</small>
-                              </a>
-                            </td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                          </tr>
-  
-                        </table>
-  
-                      </div>
-                      <!-- END CALENDAR ITEM -->
-                    </div>
-  
-                    <div class="calendar_status text-center col-sm-12">
-                      <span>Available</span>
-                      <span class="not-available">Not Available</span>
-                    </div>
-                  </div>
-  
-                </div>
-                <!-- END / CALENDAR -->
-  
               </div>
             </div>
   
@@ -835,8 +458,6 @@
   
         </div>
         <!-- END / TAB -->
-  
- 
   
       </div>
     </section>
@@ -848,6 +469,8 @@
 
 import Firebase from 'firebase'
 
+import flatPickr from 'vue-flatpickr-component';
+import 'flatpickr/dist/flatpickr.css';
 var db = Firebase.database()
 
 export default {
@@ -857,21 +480,92 @@ export default {
       rooms: db.ref('rooms')
     }
   },
+
   data() {
     return {
-      roomID: this.$route.params.roomId
+      roomID: this.$route.params.roomId,
+      date: null,
+      date2: null,
+      rooms: ''
     }
   },
+
   computed: {
-    roomDetailIndex: function () {
-      return this.rooms.findIndex(a => a.permalink === this.roomID)
-    },
-    roomDetail: function () {
-      return this.rooms[this.roomDetailIndex];
+    // roomDetailIndex: function () {
+    //   return this.rooms.findIndex(a => a.permalink === this.roomID)
+    // },
+    // roomDetail: function () {
+    //   return this.rooms[this.roomDetailIndex];
+    // }
+  },
+  mounted() {
+    console.log(this, "this");
+
+    GalleryRoomDetail();
+
+    function GalleryRoomDetail() {
+
+      if ($('.room-detail_img').length) {
+
+        $(".room-detail_img").owlCarousel({
+          navigation: true,
+          pagination: false,
+          navigationText: ["<i class='fa fa-chevron-left'></i>", "<i class='fa fa-chevron-right'></i>"],
+          singleItem: true,
+          mouseDrag: false,
+          transitionStyle: 'fade'
+        });
+      }
+
+      if ($('.room-detail_thumbs').length) {
+
+        $(".room-detail_thumbs").owlCarousel({
+          items: 7,
+          pagination: false,
+          navigation: true,
+          mouseDrag: false,
+          navigationText: ["<i class='fa fa-chevron-left'></i>", "<i class='fa fa-chevron-right'></i>"],
+          itemsCustom: [
+            [0, 3],
+            [320, 4],
+            [480, 5],
+            [768, 6],
+            [992, 7],
+            [1200, 7]
+          ]
+        });
+
+        if ($(".room-detail_img").data("owlCarousel") !== undefined && $(".room-detail_thumbs").data("owlCarousel") !==
+          undefined) {
+          $('.room-detail_thumbs').on('click', '.owl-item', function (event) {
+
+            var $this = $(this),
+              index = $this.index();
+            $('.room-detail_thumbs').find('.active').removeClass('active');
+            $this.addClass('active');
+            $(".room-detail_img").data("owlCarousel").goTo(index);
+
+            return false;
+          });
+        }
+      }
     }
   },
-  created() {
-    console.log('this', this)
+  components: {
+    flatPickr
+  },
+  methods: {
+    openTab: function (e, name) {
+
+      var tabLink = document.querySelectorAll(".room-detail_tab-header li");
+      tabLink.forEach(e => e.classList.remove("active"));
+
+      e.currentTarget.className += " active";
+
+      var tabName = document.querySelectorAll(".tab-pane");
+      tabName.forEach(e => e.classList.remove("active", "in"))
+      document.getElementById(name).classList.add("active", "in");
+    }
   }
 }
 </script>

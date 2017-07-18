@@ -4,7 +4,6 @@ import Vue from 'vue'
 
 import firebase from 'firebase'
 
-
 import router from './router'
 
 import VueFire from 'vuefire'
@@ -16,7 +15,11 @@ Vue.use(VueFire)
 
 
 
-
+router.beforeEach((to, from, next) => {
+  
+ window.scrollTo(0, 0);
+ next()
+})
 
 Vue.config.productionTip = false
 
