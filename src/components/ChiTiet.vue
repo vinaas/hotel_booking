@@ -496,6 +496,7 @@ export default {
       date2: null,
       rooms: '',
       orderRoom: {
+        time: '',
         roomName: this.$route.params.roomId,
         date1: '',
         date2: '',
@@ -586,6 +587,7 @@ export default {
     addOrderRoom: function (orderRoom) {
 
       var _this = this;
+      orderRoom.time = Firebase.database.ServerValue.TIMESTAMP;
 
       if (orderRoom.date1 == "") {
         this.$refs.simplert.openSimplert({
@@ -616,13 +618,6 @@ export default {
         })
         return;
       }
-
-      // this.$refs.simplert.openSimplert({
-      //   title: 'Đặt phòng thành công',
-      //   message: 'Chúng tôi sẽ liên lạc lại với bạn',
-      //   type: 'success',
-      //   customCloseBtnText: 'Đóng'
-      // })
 
       orderRooms.push(orderRoom, function (error) {
         let closeFn = function () {
