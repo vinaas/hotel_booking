@@ -109,26 +109,27 @@
                 <div class="room-detail_form">
                   <label>Ngày đến</label>
   
-                  <flat-pickr v-model="date" placeholder="Ngày đến" input-class="awe-calendar from"></flat-pickr>
+                  <flat-pickr v-model="orderRoom.date1" placeholder="Ngày đến" input-class="awe-calendar from"></flat-pickr>
   
                   <label>Ngày đi</label>
-                  <flat-pickr v-model="date2" placeholder="Ngày đi" input-class="awe-calendar from"></flat-pickr>
+                  <flat-pickr v-model="orderRoom.date2" placeholder="Ngày đi" input-class="awe-calendar from"></flat-pickr>
   
                   <label>Người lớn</label>
-                  <select class="form-control">
+                  <select class="form-control" v-model="orderRoom.adults">
                     <option>1</option>
                     <option>2</option>
-                    <option selected>3</option>
+                    <option>3</option>
                     <option>4</option>
                   </select>
                   <label>Trẻ em</label>
-                  <select class="form-control">
+                  <select class="form-control" v-model="orderRoom.children">
+                    <option>0</option>
                     <option>1</option>
                     <option>2</option>
-                    <option selected>3</option>
+                    <option>3</option>
                     <option>4</option>
                   </select>
-                  <button class="awe-btn awe-btn-13">Đặt ngay</button>
+                  <button class="awe-btn awe-btn-13" v-on:click="addOrderRoom(orderRoom)">Đặt ngay</button>
                 </div>
   
               </div>
@@ -462,6 +463,9 @@
       </div>
     </section>
   
+    <simplert :useRadius="true" :useIcon="true" ref="simplert">
+    </simplert>
+  
   </div>
 </template>
 
@@ -469,9 +473,13 @@
 
 import Firebase from 'firebase'
 
+import simplert from 'vue2-simplert'
+
 import flatPickr from 'vue-flatpickr-component';
 import 'flatpickr/dist/flatpickr.css';
 var db = Firebase.database()
+
+var orderRooms = db.ref('orderRooms')
 
 export default {
   name: 'chitiet',
@@ -486,7 +494,14 @@ export default {
       roomID: this.$route.params.roomId,
       date: null,
       date2: null,
-      rooms: ''
+      rooms: '',
+      orderRoom: {
+        roomName: this.$route.params.roomId,
+        date1: '',
+        date2: '',
+        adults: '1',
+        children: '0'
+      }
     }
   },
 
@@ -552,7 +567,8 @@ export default {
     }
   },
   components: {
-    flatPickr
+    flatPickr,
+    simplert
   },
   methods: {
     openTab: function (e, name) {
@@ -565,6 +581,74 @@ export default {
       var tabName = document.querySelectorAll(".tab-pane");
       tabName.forEach(e => e.classList.remove("active", "in"))
       document.getElementById(name).classList.add("active", "in");
+    },
+
+    addOrderRoom: function (orderRoom) {
+
+      var _this = this;
+
+      if (orderRoom.date1 == "") {
+        this.$refs.simplert.openSimplert({
+          title: 'Thiếu thông tin',
+          message: 'Bạn chưa nhập ngày đến',
+          type: 'error',
+          customCloseBtnText: 'Đóng'
+        })
+        return;
+      }
+
+      if (orderRoom.date2 == "") {
+        this.$refs.simplert.openSimplert({
+          title: 'Thiếu thông tin',
+          message: 'Bạn chưa nhập ngày đi',
+          type: 'error',
+          customCloseBtnText: 'Đóng'
+        })
+        return;
+      }
+
+      if (orderRoom.date1 > orderRoom.date2) {
+        this.$refs.simplert.openSimplert({
+          title: 'Thiếu thông tin',
+          message: 'Ngày đến lớn hơn ngày đi',
+          type: 'error',
+          customCloseBtnText: 'Đóng'
+        })
+        return;
+      }
+
+      // this.$refs.simplert.openSimplert({
+      //   title: 'Đặt phòng thành công',
+      //   message: 'Chúng tôi sẽ liên lạc lại với bạn',
+      //   type: 'success',
+      //   customCloseBtnText: 'Đóng'
+      // })
+
+      orderRooms.push(orderRoom, function (error) {
+        let closeFn = function () {
+          _this.$router.push({ path: '/' })
+        }
+        if (error) {
+          _this.$refs.simplert.openSimplert({
+            title: 'Có lỗi xảy ra',
+            message: 'Bạn vui lòng đăng ký lại',
+            type: 'error',
+            customCloseBtnText: 'Đóng'
+          })
+          return;
+        } else {
+          _this.$refs.simplert.openSimplert({
+            title: 'Đặt phòng thành công',
+            message: 'Chúng tôi sẽ liên lạc lại với bạn',
+            type: 'success',
+            customCloseBtnText: 'Đóng',
+            onClose: closeFn
+          })
+        }
+      });
+
+
+
     }
   }
 }
