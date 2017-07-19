@@ -95,38 +95,38 @@
     }
 
     /*Menu Sticky*/ 
-    function MenuSticky() {
-        if($('#header_content').length) {
-            var $this = $('#header_content'),
-                size_point = $this.data().responsive,
-                window_w = $(window).innerWidth(),
-                window_scroll = $(window).scrollTop(),
-                top_h = $('#header .header_top').innerHeight(),
-                this_h = $this.innerHeight();
+    // function MenuSticky() {
+    //     if($('#header_content').length) {
+    //         var $this = $('#header_content'),
+    //             size_point = $this.data().responsive,
+    //             window_w = $(window).innerWidth(),
+    //             window_scroll = $(window).scrollTop(),
+    //             top_h = $('#header .header_top').innerHeight(),
+    //             this_h = $this.innerHeight();
 
-                if(size_point == undefined || size_point == '') {
-                    size_point = 1199;
-                }
+    //             if(size_point == undefined || size_point == '') {
+    //                 size_point = 1199;
+    //             }
 
-                if( window_scroll > top_h ) {
+    //             if( window_scroll > top_h ) {
 
-                    if(($this).hasClass('header-sticky') == false) {
-                        $this.parent().addClass('header-sticky');
+    //                 if(($this).hasClass('header-sticky') == false) {
+    //                     $this.parent().addClass('header-sticky');
 
-                        if(window_w <= size_point) {
-                            $this.find('.header_menu').css('top', this_h + 'px');
-                        }
-                    }
+    //                     if(window_w <= size_point) {
+    //                         $this.find('.header_menu').css('top', this_h + 'px');
+    //                     }
+    //                 }
 
-                } else {
-                    $this.parent().removeClass('header-sticky');
+    //             } else {
+    //                 $this.parent().removeClass('header-sticky');
 
-                    if(window_w <= size_point) {
-                        $this.find('.header_menu').css('top', (this_h + top_h) + 'px');
-                    }
-                }
-        }
-    }
+    //                 if(window_w <= size_point) {
+    //                     $this.find('.header_menu').css('top', (this_h + top_h) + 'px');
+    //                 }
+    //             }
+    //     }
+    // }
 
     /* Menu Resize */
     function MenuResize() {
